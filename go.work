@@ -2,5 +2,7 @@ go 1.18
 
 use (
 	./day01
+	./day02
+	./day03
 	./utils
 )
