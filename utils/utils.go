@@ -47,3 +47,27 @@ func SortString(s string) string {
 	sort.Sort(sortRunes(r))
 	return string(r)
 }
+
+type Set[T comparable] map[T]struct{}
+
+func NewSet[T comparable](slice []T) Set[T] {
+	set := make(Set[T])
+	for _, s := range slice {
+		set.Add(s)
+	}
+	return set
+}
+
+func (s Set[T]) Add(v T) {
+	s[v] = struct{}{}
+}
+
+func (s Set[T]) Intersect(s2 Set[T]) Set[T] {
+	result := make(Set[T])
+	for v := range s {
+		if _, ok := s2[v]; ok {
+			result.Add(v)
+		}
+	}
+	return result
+}
