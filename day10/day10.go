@@ -15,18 +15,20 @@ type Instruction struct {
 
 type CRT struct {
 	strings.Builder
+	cycle int
 }
 
-func (crt *CRT) drawPixel(cycle, x int) {
-	row := cycle % 40
-	if row == 0 {
+func (crt *CRT) drawPixel(x int) {
+	if crt.cycle%40 == 0 {
+		crt.cycle = 0
 		crt.WriteByte('\n')
 	}
-	if row >= x && row < x+3 {
+	if crt.cycle >= x && crt.cycle < x+3 {
 		crt.WriteByte('#')
 	} else {
 		crt.WriteByte(' ')
 	}
+	crt.cycle++
 }
 
 func parseInput(input string) (output []Instruction) {
@@ -66,16 +68,13 @@ func p1(inp []Instruction) (sum int) {
 
 func p2(inp []Instruction) string {
 	x := 0
-	cycle := 0
 	var crt CRT
 	for _, instruction := range inp {
-		crt.drawPixel(cycle, x)
+		crt.drawPixel(x)
 		if instruction.op == "addx" {
-			cycle++
-			crt.drawPixel(cycle, x)
+			crt.drawPixel(x)
 			x += instruction.arg
 		}
-		cycle++
 	}
 	return crt.String()
 }
