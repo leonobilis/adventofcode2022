@@ -21,6 +21,13 @@ func Abs(x int) int {
 	return x
 }
 
+func MinMax(a, b int) (int, int) {
+	if a > b {
+		return b, a
+	}
+	return a, b
+}
+
 func GetIntArray(input string) (output []int) {
 	for _, s := range strings.Split(input, "\n") {
 		output = append(output, Atoi(s))
@@ -60,6 +67,11 @@ func NewSet[T comparable](slice []T) Set[T] {
 
 func (s Set[T]) Add(v T) {
 	s[v] = struct{}{}
+}
+
+func (s Set[T]) Contains(v T) bool {
+	_, ok := s[v]
+	return ok
 }
 
 func (s Set[T]) Intersect(s2 Set[T]) Set[T] {
