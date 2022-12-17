@@ -87,47 +87,47 @@ func (s Shape) MaxY() (maxY int) {
 	return
 }
 
-func ShapesGenerator() func(Position) Shape {
+func ShapesGenerator() func(x, y int) Shape {
 	i := -1
-	next := func(pos Position) (shape Shape) {
+	next := func(x, y int) (shape Shape) {
 		i = (i + 1) % 5
 		switch i {
 		case 0:
 			shape = Shape{
-				Position{pos.x, pos.y},
-				Position{pos.x + 1, pos.y},
-				Position{pos.x + 2, pos.y},
-				Position{pos.x + 3, pos.y},
+				Position{x, y},
+				Position{x + 1, y},
+				Position{x + 2, y},
+				Position{x + 3, y},
 			}
 		case 1:
 			shape = Shape{
-				Position{pos.x + 1, pos.y + 2},
-				Position{pos.x, pos.y + 1},
-				Position{pos.x + 1, pos.y + 1},
-				Position{pos.x + 2, pos.y + 1},
-				Position{pos.x + 1, pos.y},
+				Position{x + 1, y + 2},
+				Position{x, y + 1},
+				Position{x + 1, y + 1},
+				Position{x + 2, y + 1},
+				Position{x + 1, y},
 			}
 		case 2:
 			shape = Shape{
-				Position{pos.x + 2, pos.y + 2},
-				Position{pos.x + 2, pos.y + 1},
-				Position{pos.x, pos.y},
-				Position{pos.x + 1, pos.y},
-				Position{pos.x + 2, pos.y},
+				Position{x + 2, y + 2},
+				Position{x + 2, y + 1},
+				Position{x, y},
+				Position{x + 1, y},
+				Position{x + 2, y},
 			}
 		case 3:
 			shape = Shape{
-				Position{pos.x, pos.y + 3},
-				Position{pos.x, pos.y + 2},
-				Position{pos.x, pos.y + 1},
-				Position{pos.x, pos.y},
+				Position{x, y + 3},
+				Position{x, y + 2},
+				Position{x, y + 1},
+				Position{x, y},
 			}
 		case 4:
 			shape = Shape{
-				Position{pos.x, pos.y + 1},
-				Position{pos.x + 1, pos.y + 1},
-				Position{pos.x, pos.y},
-				Position{pos.x + 1, pos.y},
+				Position{x, y + 1},
+				Position{x + 1, y + 1},
+				Position{x, y},
+				Position{x + 1, y},
 			}
 		}
 		return
@@ -140,7 +140,7 @@ func p1(pattern *Pattern) (height int) {
 	nextShape := ShapesGenerator()
 	maxY := -1
 	for i := 0; i < 2022; i++ {
-		shape := nextShape(Position{2, maxY + 3})
+		shape := nextShape(2, maxY+3)
 		shape = shape.Push(pattern.Next(), rocks)
 		for ok := true; ok; shape, ok = shape.MoveDown(rocks) {
 			shape = shape.Push(pattern.Next(), rocks)
@@ -161,7 +161,7 @@ func p2(pattern *Pattern) int {
 	maxY := -1
 	repI, repMaxY, diffI, diffMaxY := -1, -1, -1, -1
 	for i := 0; ; i++ {
-		shape := nextShape(Position{2, maxY + 3})
+		shape := nextShape(2, maxY+3)
 		shape = shape.Push(pattern.Next(), rocks)
 		for ok := true; ok; shape, ok = shape.MoveDown(rocks) {
 			shape = shape.Push(pattern.Next(), rocks)
@@ -197,7 +197,7 @@ func p2(pattern *Pattern) int {
 	iter := 1000000000000 - repI - 1
 
 	for i := 0; i < iter%diffI; i++ {
-		shape := nextShape(Position{2, maxY + 3})
+		shape := nextShape(2, maxY+3)
 		shape = shape.Push(pattern.Next(), rocks)
 		for ok := true; ok; shape, ok = shape.MoveDown(rocks) {
 			shape = shape.Push(pattern.Next(), rocks)
