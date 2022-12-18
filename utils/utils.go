@@ -83,3 +83,10 @@ func (s Set[T]) Intersect(s2 Set[T]) Set[T] {
 	}
 	return result
 }
+
+func (s Set[T]) Union(s2 Set[T]) Set[T] {
+	for v := range s2 {
+		s.Add(v)
+	}
+	return s
+}
