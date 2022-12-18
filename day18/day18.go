@@ -12,10 +12,6 @@ type Position struct {
 	x, y, z int
 }
 
-func (a Position) Dist(b Position) int {
-	return utils.Abs(a.x-b.x) + utils.Abs(a.y-b.y) + utils.Abs(a.z-b.z)
-}
-
 func parseInput(input string) utils.Set[Position] {
 	output := make(utils.Set[Position])
 	for _, s := range strings.Split(input, "\n") {
@@ -32,8 +28,8 @@ func parseInput(input string) utils.Set[Position] {
 func p1(cubes utils.Set[Position]) int {
 	sum := len(cubes) * 6
 	for c1 := range cubes {
-		for c2 := range cubes {
-			if c1 != c2 && c1.Dist(c2) == 1 {
+		for _, diff := range [][]int{{1, 0, 0}, {-1, 0, 0}, {0, 1, 0}, {0, -1, 0}, {0, 0, 1}, {0, 0, -1}} {
+			if cubes.Contains(Position{c1.x + diff[0], c1.y + diff[1], c1.z + diff[2]}) {
 				sum--
 			}
 		}
