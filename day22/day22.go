@@ -27,17 +27,21 @@ const (
 	Up
 )
 
+func mod(a, b int) int {
+	return (a%b + b) % b
+}
+
 type Traveler struct {
 	Tile   *Tile
 	Facing Direction
 }
 
 func (t *Traveler) TurnLeft() {
-	t.Facing = (t.Facing - 1) % 4
+	t.Facing = Direction(mod(int(t.Facing-1), 4))
 }
 
 func (t *Traveler) TurnRight() {
-	t.Facing = (t.Facing + 1) % 4
+	t.Facing = Direction(mod(int(t.Facing+1), 4))
 }
 
 func (t *Traveler) Move(n int) {
@@ -154,28 +158,28 @@ func parseInput(input string) (firstTile *Tile, actions []func(*Traveler)) {
 		prevLen = len(rangeX)
 	}
 
-	prev := 0
-	for i := 0; i < len(rangeY[0]); i++ {
-		if v, ok := teleportY[i]; ok {
-			if v != nil {
-				if v.Up != nil {
-					if prev != v.Up.y {
-						fmt.Printf("\n %v --> %v \n", prev, v.Up.y)
-					}
-					prev = v.Up.y
-					fmt.Print(".")
-				} else {
-					fmt.Print("#")
-				}
-			} else {
-				fmt.Print("N")
-			}
-		} else {
-			fmt.Print("E")
-		}
-	}
+	// prev := 0
+	// for i := 0; i < len(rangeY[0]); i++ {
+	// 	if v, ok := teleportY[i]; ok {
+	// 		if v != nil {
+	// 			if v.Up != nil {
+	// 				if prev != v.Up.y {
+	// 					fmt.Printf("\n %v --> %v \n", prev, v.Up.y)
+	// 				}
+	// 				prev = v.Up.y
+	// 				fmt.Print(".")
+	// 			} else {
+	// 				fmt.Print("#")
+	// 			}
+	// 		} else {
+	// 			fmt.Print("N")
+	// 		}
+	// 	} else {
+	// 		fmt.Print("E")
+	// 	}
+	// }
 
-	fmt.Println()
+	// fmt.Println()
 
 	re := regexp.MustCompile(`\d+|[RL]`)
 	for _, action := range re.FindAllString(s[1], -1) {
@@ -210,7 +214,7 @@ func p1(tile *Tile, actions []func(*Traveler)) int {
 }
 
 func main() {
-	input, _ := ioutil.ReadFile("input2.txt")
+	input, _ := ioutil.ReadFile("input.txt")
 	// parseInput(string(input))
 	tile, actions := parseInput(string(input))
 	fmt.Printf("Part 1: %v\n", p1(tile, actions))
