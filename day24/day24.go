@@ -30,22 +30,18 @@ func (blizzards Blizzards) Move(max Position) Blizzards {
 			var p2 Position
 			switch b2 {
 			case Right:
-				p2 = Position{mod(p.x+1, max.x+1), p.y}
+				p2 = Position{utils.Mod(p.x+1, max.x+1), p.y}
 			case Down:
-				p2 = Position{p.x, mod(p.y+1, max.y+1)}
+				p2 = Position{p.x, utils.Mod(p.y+1, max.y+1)}
 			case Left:
-				p2 = Position{mod(p.x-1, max.x+1), p.y}
+				p2 = Position{utils.Mod(p.x-1, max.x+1), p.y}
 			case Up:
-				p2 = Position{p.x, mod(p.y-1, max.y+1)}
+				p2 = Position{p.x, utils.Mod(p.y-1, max.y+1)}
 			}
 			newBlizzards[p2] = append(newBlizzards[p2], b2)
 		}
 	}
 	return newBlizzards
-}
-
-func mod(a, b int) int {
-	return (a%b + b) % b
 }
 
 func parseInput(input string) (Blizzards, Position) {

@@ -28,6 +28,10 @@ func MinMax(a, b int) (int, int) {
 	return a, b
 }
 
+func Mod(a, b int) int {
+	return (a%b + b) % b
+}
+
 func GetIntArray(input string) (output []int) {
 	for _, s := range strings.Split(input, "\n") {
 		output = append(output, Atoi(s))
